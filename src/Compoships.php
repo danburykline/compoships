@@ -14,7 +14,11 @@ trait Compoships
     {
         if (is_array($key)) { //Check for multi-columns relationship
             return array_map(function ($k) {
-                return parent::getAttribute($k);
+                $v = parent::getAttribute($k);
+                if($v instanceof \DateTime){
+                    $v = $v->format('Y-m-d');
+                }
+                return $v;
             }, $key);
         }
 

@@ -227,7 +227,11 @@ trait HasOneOrMany
             //If the foreign key is an array, we know it's a multi-column relationship...
             if (is_array($foreign)) {
                 $dictKeyValues = array_map(function ($k) use ($result) {
-                    return $result->{$k};
+                    $v = $result->{$k};
+                    if($v instanceof \DateTime){
+                        $v = $v->format('Y-m-d');
+                    }
+                    return $v;
                 }, $foreign);
                 //... so we join the values to construct the dictionary key
                 $dictionary[implode('-', $dictKeyValues)][] = $result;
